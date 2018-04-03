@@ -1,5 +1,7 @@
 package javacourses;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,11 +30,36 @@ public class Main {
                 case "list":
                     list();
                     break;
+                case "expired":
+                    findExpired();
+                    break;
                 case "help":
                     showHelp();
                     break;
                 default:
                     System.out.println("Unknown command. Enter 'help' for all available options");
+            }
+        }
+    }
+
+    private static void findExpired() {
+        // TODO this method is too shitty! Refactor it ASAP! But it does its work for demonstration purposes.
+        LocalTime now = LocalTime.now();
+        LocalDateTime nowDT = LocalDateTime.now();
+        for (Record r : records) {
+            if (r instanceof Alarm && !(r instanceof Reminder)) {
+                Alarm a = (Alarm) r;
+                if (a.getTime().isBefore(now)) {
+                    System.out.println(a);
+                }
+            }
+
+            if (r instanceof Reminder) {
+                Reminder rem = (Reminder) r;
+                LocalDateTime dt = rem.getDate().atTime(rem.getTime());
+                if (dt.isBefore(nowDT)) {
+                    System.out.println(rem);
+                }
             }
         }
     }
@@ -68,6 +95,9 @@ public class Main {
                     return;
                 case "alarm":
                     addRecord(new Alarm());
+                    return;
+                case "reminder":
+                    addRecord(new Reminder());
                     return;
                 case "help":
                     showHelpCreate();
