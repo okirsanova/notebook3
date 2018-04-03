@@ -66,6 +66,9 @@ public class Main {
                 case "note":
                     addRecord(new Note());
                     return;
+                case "alarm":
+                    addRecord(new Alarm());
+                    return;
                 case "help":
                     showHelpCreate();
                     break;
@@ -84,6 +87,7 @@ public class Main {
     private static void showHelpCreate() {
         System.out.println("\tperson  creates a new phone book record");
         System.out.println("\tnote    creates a new note record");
+        System.out.println("\talarm   creates a new alarm");
         System.out.println("\texit    returns to main menu");
     }
 
