@@ -17,7 +17,6 @@ public class Note extends Record {
         return "Note{" +
                 "id=" + getId() +
                 ", text='" + text + '\'' +
-                ", comment='" + text + '\'' +
                 '}';
     }
 
