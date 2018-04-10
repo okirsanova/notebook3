@@ -129,10 +129,11 @@ public class Main {
     }
 
     private static void showHelpCreate() {
-        System.out.println("\tperson  creates a new phone book record");
-        System.out.println("\tnote    creates a new note record");
-        System.out.println("\talarm   creates a new alarm");
-        System.out.println("\texit    returns to main menu");
+        System.out.println("\tperson   creates a new phone book record");
+        System.out.println("\tnote     creates a new note record");
+        System.out.println("\talarm    creates a new alarm");
+        System.out.println("\treminder creates a new reminder");
+        System.out.println("\texit     returns to main menu");
     }
 
     private static void showHelp() {
@@ -140,6 +141,8 @@ public class Main {
         System.out.println("\tcreate  creates a new record");
         System.out.println("\tlist    lists all records");
         System.out.println("\tfind    searches for text");
+        System.out.println("\tshow    shows record by id");
+        System.out.println("\texpired list expired records");
         System.out.println("\texit    exit from the program");
     }
 
