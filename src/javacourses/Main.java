@@ -1,20 +1,24 @@
 package javacourses;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
+    public static final String DATE_FORMAT = "dd/MM/yyyy";
+    public static final DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofPattern(DATE_FORMAT);
+
     public static final String TIME_FORMAT = "HH:mm";
     public static final DateTimeFormatter TIME_FORMATTER
             = DateTimeFormatter.ofPattern(TIME_FORMAT);
 
     static Scanner scanner = new Scanner(System.in);
-    static ArrayList<Record> records = new ArrayList<>();
+    //    static ArrayList<Record> records = new ArrayList<>();
+    static TreeMap<Integer, Record> recordsMap = new TreeMap<>();
 
     public static void main(String[] args) {
         commandLoop();
@@ -37,11 +41,11 @@ public class Main {
                 case "list":
                     list();
                     break;
-//                case "show":
-//                    show();
-//                    break;
+                case "show":
+                    showById();
+                    break;
                 case "expired":
-//                    findExpired();
+                    findExpired();
                     break;
                 case "help":
                     showHelp();
@@ -52,51 +56,44 @@ public class Main {
         }
     }
 
-//    private static void findExpired() {
-//        // TODO this method is too shitty! Refactor it ASAP! But it does its work for demonstration purposes.
-//        LocalTime now = LocalTime.now();
-//        LocalDateTime nowDT = LocalDateTime.now();
-//        for (Record r : records) {
-//            if (r instanceof Alarm && !(r instanceof Reminder)) {
-//                Alarm a = (Alarm) r;
-//                if (a.getTime().isBefore(now)) {
-//                    System.out.println(a);
-//                }
+    private static void findExpired() {
+        for (Record r : recordsMap.values()) {
+
+//            if (r instanceof Note){
+//                System.out.println("Im a not with number " );
 //            }
-//
-//            if (r instanceof Reminder) {
-//                Reminder rem = (Reminder) r;
-//                LocalDateTime dt = rem.getDate().atTime(rem.getTime());
-//                if (dt.isBefore(nowDT)) {
-//                    System.out.println(rem);
-//                }
-//            }
-//        }
-//    }
+
+            if (r instanceof Expirable) {
+                Expirable expirable = (Expirable) r;
+                if (expirable.isExpired()) {
+                    System.out.println(expirable);
+                }
+            }
+        }
+    }
 
     private static void list() {
-        for (Record r : records) {
+        for (Record r : recordsMap.values()) {
             System.out.println(r);
         }
     }
 
     private static void find() {
         String part = askString("What to find? ");
-        for (Record r : records) {
+        for (Record r : recordsMap.values()) {
             if (r.contains(part)) {
                 System.out.println(r);
             }
         }
     }
 
-//    private static void show() {
-//         =  ("Enter ID to show data ");
-//        for (Record r : records) {
-//            if (r.contains(id)) {
-//                System.out.println(Record.id);
-//            }
-//        }
-//    }
+    private static void showById() {
+        String strId = askString("Enter id of record you want to find: ");
+        int id = Integer.parseInt(strId);
+        Record r = recordsMap.get(id);
+        System.out.println(r);
+    }
+
 
     private static void create() {
         for (; ; ) {
@@ -129,7 +126,8 @@ public class Main {
 
     private static void addRecord(Record record) {
         record.askUserData();
-        records.add(record);
+        int id = record.getId();
+        recordsMap.put(id, record); // associacion what with what
         System.out.println("Created!");
     }
 
@@ -148,6 +146,18 @@ public class Main {
         System.out.println("\tlist    lists all records");
         System.out.println("\tfind    searches for text");
         System.out.println("\texit    exit from the program");
+    }
+
+    public static LocalDate askDate(String message) {
+        for (; ; ) {
+            String strDate = askString(message + "(" + DATE_FORMAT + ")");
+            try {
+                LocalDate date = LocalDate.parse(strDate, DATE_FORMATTER);
+                return date;
+            } catch (DateTimeParseException e) {
+                System.out.println("Date format is not correct.");
+            }
+        }
     }
 
     public static LocalTime askTime(String message) {

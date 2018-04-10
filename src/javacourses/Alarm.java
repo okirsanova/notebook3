@@ -1,11 +1,12 @@
 package javacourses;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 
-public class Alarm extends Note {
+public class Alarm extends Note implements Expirable {
     private LocalTime time;
 
 
@@ -38,5 +39,11 @@ LocalTime time = Main.askTime("Enter time: ");
                 ", text=" + getText() +
                 ", time='" + time + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean isExpired() {
+        LocalTime now = LocalTime.now();
+        return time.isBefore(now);
     }
 }
