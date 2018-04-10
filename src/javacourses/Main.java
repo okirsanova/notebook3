@@ -67,22 +67,11 @@ public class Main {
 
 
     private static void findExpired() {
-        // TODO this method is too shitty! Refactor it ASAP! But it does its work for demonstration purposes.
-        LocalTime now = LocalTime.now();
-        LocalDateTime nowDT = LocalDateTime.now();
         for (Record r : recordsMap.values()) {
-            if (r instanceof Alarm && !(r instanceof Reminder)) {
-                Alarm a = (Alarm) r;
-                if (a.getTime().isBefore(now)) {
-                    System.out.println(a);
-                }
-            }
-
-            if (r instanceof Reminder) {
-                Reminder rem = (Reminder) r;
-                LocalDateTime dt = rem.getDate().atTime(rem.getTime());
-                if (dt.isBefore(nowDT)) {
-                    System.out.println(rem);
+            if (r instanceof Expirable) {
+                Expirable expirable = (Expirable) r;
+                if (expirable.isExpired()) {
+                    System.out.println(expirable);
                 }
             }
         }

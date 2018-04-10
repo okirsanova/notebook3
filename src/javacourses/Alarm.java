@@ -1,8 +1,9 @@
 package javacourses;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Alarm extends Note {
+public class Alarm extends Note implements Expirable {
     private LocalTime time;
 
     @Override
@@ -34,5 +35,11 @@ public class Alarm extends Note {
                 ", text=" + getText() +
                 ", time='" + time + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean isExpired() {
+        LocalTime now = LocalTime.now();
+        return time.isBefore(now);
     }
 }

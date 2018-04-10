@@ -1,8 +1,9 @@
 package javacourses;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class Reminder extends Alarm {
+public class Reminder extends Alarm implements Expirable {
     private LocalDate date;
 
     @Override
@@ -25,6 +26,13 @@ public class Reminder extends Alarm {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean isExpired() {
+        LocalDateTime nowDT = LocalDateTime.now();
+        LocalDateTime dt = getDate().atTime(getTime());
+        return dt.isBefore(nowDT);
     }
 
     @Override
