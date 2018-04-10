@@ -1,25 +1,20 @@
 package javacourses;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class Alarm extends Note {
-    public static final String TIME_FORMAT = "HH:mm";
-    public static final DateTimeFormatter TIME_FORMATTER
-                                = DateTimeFormatter.ofPattern(TIME_FORMAT);
     private LocalTime time;
 
     @Override
     public void askUserData() {
         super.askUserData();
-        String strTime = Main.askString("Enter time (" + TIME_FORMAT + "): ");
-        LocalTime time = LocalTime.parse(strTime, TIME_FORMATTER);
+        LocalTime time = Main.askTime("Enter time ");
         setTime(time);
     }
 
     @Override
     public boolean contains(String part) {
-        String strTime = TIME_FORMATTER.format(time);
+        String strTime = Main.TIME_FORMATTER.format(time);
         return strTime.contains(part)
                 || super.contains(part);
     }
