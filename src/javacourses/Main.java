@@ -2,10 +2,17 @@ package javacourses;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+    public static final String TIME_FORMAT = "HH:mm";
+    public static final DateTimeFormatter TIME_FORMATTER
+            = DateTimeFormatter.ofPattern(TIME_FORMAT);
+
     static Scanner scanner = new Scanner(System.in);
     static ArrayList<Record> records = new ArrayList<>();
 
@@ -30,8 +37,11 @@ public class Main {
                 case "list":
                     list();
                     break;
+//                case "show":
+//                    show();
+//                    break;
                 case "expired":
-                    findExpired();
+//                    findExpired();
                     break;
                 case "help":
                     showHelp();
@@ -42,27 +52,27 @@ public class Main {
         }
     }
 
-    private static void findExpired() {
-        // TODO this method is too shitty! Refactor it ASAP! But it does its work for demonstration purposes.
-        LocalTime now = LocalTime.now();
-        LocalDateTime nowDT = LocalDateTime.now();
-        for (Record r : records) {
-            if (r instanceof Alarm && !(r instanceof Reminder)) {
-                Alarm a = (Alarm) r;
-                if (a.getTime().isBefore(now)) {
-                    System.out.println(a);
-                }
-            }
-
-            if (r instanceof Reminder) {
-                Reminder rem = (Reminder) r;
-                LocalDateTime dt = rem.getDate().atTime(rem.getTime());
-                if (dt.isBefore(nowDT)) {
-                    System.out.println(rem);
-                }
-            }
-        }
-    }
+//    private static void findExpired() {
+//        // TODO this method is too shitty! Refactor it ASAP! But it does its work for demonstration purposes.
+//        LocalTime now = LocalTime.now();
+//        LocalDateTime nowDT = LocalDateTime.now();
+//        for (Record r : records) {
+//            if (r instanceof Alarm && !(r instanceof Reminder)) {
+//                Alarm a = (Alarm) r;
+//                if (a.getTime().isBefore(now)) {
+//                    System.out.println(a);
+//                }
+//            }
+//
+//            if (r instanceof Reminder) {
+//                Reminder rem = (Reminder) r;
+//                LocalDateTime dt = rem.getDate().atTime(rem.getTime());
+//                if (dt.isBefore(nowDT)) {
+//                    System.out.println(rem);
+//                }
+//            }
+//        }
+//    }
 
     private static void list() {
         for (Record r : records) {
@@ -78,6 +88,15 @@ public class Main {
             }
         }
     }
+
+//    private static void show() {
+//         =  ("Enter ID to show data ");
+//        for (Record r : records) {
+//            if (r.contains(id)) {
+//                System.out.println(Record.id);
+//            }
+//        }
+//    }
 
     private static void create() {
         for (; ; ) {
@@ -114,10 +133,12 @@ public class Main {
         System.out.println("Created!");
     }
 
+
     private static void showHelpCreate() {
         System.out.println("\tperson  creates a new phone book record");
         System.out.println("\tnote    creates a new note record");
         System.out.println("\talarm   creates a new alarm");
+        System.out.println("\treminder  creates a new reminder");
         System.out.println("\texit    returns to main menu");
     }
 
@@ -128,6 +149,19 @@ public class Main {
         System.out.println("\tfind    searches for text");
         System.out.println("\texit    exit from the program");
     }
+
+    public static LocalTime askTime(String message) {
+        for (; ; ) {
+            String strTime = askString(message + "(" + TIME_FORMAT + ")");
+            try {
+                LocalTime time = LocalTime.parse(strTime, TIME_FORMATTER);
+                return time;
+            } catch (DateTimeParseException e) {
+                System.out.println("Time format is not correct, use HH:mm format.");
+            }
+        }
+    }
+
 
     public static String askString(String message) {
         System.out.print(message);
