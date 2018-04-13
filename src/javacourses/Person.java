@@ -12,7 +12,7 @@ public class Person extends Record implements WithBirthday {
     private String lastName;
     private String phone;
     private String email;
-    private String birthday;
+    private LocalDate birthday;
 
 
     public static final String DATE_FORMAT = "dd/MM/yyyy";
@@ -51,22 +51,6 @@ public class Person extends Record implements WithBirthday {
         this.email = email;
     }
 
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-
-    public LocalDate getBirthday() {
-        return birthday();
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday() = birthday();
-    }
 
     @Override
     public String toString() {
@@ -80,57 +64,45 @@ public class Person extends Record implements WithBirthday {
                 "}";
     }
 
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public boolean contains(String part) {
-        String birthday = Main.DATE_FORMATTER.format(birthday);
-        {
-            return super.contains(part)
-                    || birthday.contains(part);
-        }
+        String strBirthday = Main.DATE_FORMATTER.format(birthday);
+        return firstName.contains(part)
+                || lastName.contains(part)
+                || phone.contains(part)
+                || email.contains(part)
+                || strBirthday.contains(part);
+    }
 
-        @Override
-        public static LocalDate askDate(String message) {
-            String getBirthday = Main.askDate(message + "(" + DATE_FORMAT + ")");
-            LocalDate getBirthday = Main.askDate("Enter birthday date: ");
-            withbirthday();
-            LocalDate date = LocalDate.parse(birthday, DATE_FORMATTER);
-            setBirthday(birthday);
-        }
+    @Override
+    public void askUserData ()
+    {
+        String firstName = Main.askString("First Name: ");
+        String lastName = Main.askString("Last Name: ");
+        String phone = Main.askString("Phone: ");
+        String email = Main.askString("Email: ");
+        LocalDate birthday = Main.askDate("Set birthday: ");
 
-        @Override
-        public void askUserData ();
-        {
-            String firstName = Main.askString("First Name: ");
-            String lastName = Main.askString("Last Name: ");
-            String phone = Main.askString("Phone: ");
-            String email = Main.askString("Email: ");
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPhone(phone);
+        setEmail(email);
+        setBirthday(birthday);
+    }
 
-            setFirstName(firstName);
-            setLastName(lastName);
-            setPhone(phone);
-            setEmail(email);
-
-        }
+    @Override
+    public boolean withbirthday() {
+        return false;
     }
 }
-
-//    @Override
-//    public void askUserData() {
-//        super.askUserData();
-//        LocalDate birthday = Main.askDate("Enter date: ");
-//        setBirthday(birthday);
-//    }
-
-
-//
-//    @Override
-//    public boolean contains(String part) {
-//        return firstName.contains(part)
-//                || lastName.contains(part)
-//                || phone.contains(part)
-//                || email.contains(part);
-//                || birthday.contains(part);
-//    }
 
 
 //    @Override
