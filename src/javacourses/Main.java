@@ -88,10 +88,18 @@ public class Main {
     }
 
     private static void showById() {
-        String strId = askString("Enter id of record you want to find: ");
-        int id = Integer.parseInt(strId);
-        Record r = recordsMap.get(id);
-        System.out.println(r);
+        for (; ; ) {
+            try {
+                String strId = askString("Enter id of record you want to find: ");
+                int id = Integer.parseInt(strId);
+                Record r = recordsMap.get(id);
+                System.out.println(r);
+            }
+            catch (NumberFormatException e) {
+                scanner.next();
+                System.out.println("Only numbers, please!");
+            }
+        }
     }
 
 
