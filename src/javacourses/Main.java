@@ -18,7 +18,7 @@ public class Main {
 
     static Scanner scanner = new Scanner(System.in);
     //    static ArrayList<Record> records = new ArrayList<>();
-    static TreeMap<Integer, Record> recordsMap = new TreeMap<>();
+    static TreeMap<Integer, Record> treeMap = new TreeMap<>();
 
     public static void main(String[] args) {
         commandLoop();
@@ -57,12 +57,7 @@ public class Main {
     }
 
     private static void findExpired() {
-        for (Record r : recordsMap.values()) {
-
-//            if (r instanceof Note){
-//                System.out.println("Im a not with number " );
-//            }
-
+        for (Record r : treeMap.values()) {
             if (r instanceof Expirable) {
                 Expirable expirable = (Expirable) r;
                 if (expirable.isExpired()) {
@@ -73,14 +68,14 @@ public class Main {
     }
 
     private static void list() {
-        for (Record r : recordsMap.values()) {
+        for (Record r : treeMap.values()) {
             System.out.println(r);
         }
     }
 
     private static void find() {
         String part = askString("What to find? ");
-        for (Record r : recordsMap.values()) {
+        for (Record r : treeMap.values()) {
             if (r.contains(part)) {
                 System.out.println(r);
             }
@@ -92,10 +87,9 @@ public class Main {
             try {
                 String strId = askString("Enter id of record you want to find: ");
                 int id = Integer.parseInt(strId);
-                Record r = recordsMap.get(id);
+                Record r = treeMap.get(id);
                 System.out.println(r);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 scanner.next();
                 System.out.println("Only numbers, please!");
             }
@@ -113,6 +107,9 @@ public class Main {
                     return;
                 case "person":
                     addRecord(new Person());
+                    return;
+                case "pet":
+                    addRecord(new Pet());
                     return;
                 case "note":
                     addRecord(new Note());
@@ -135,17 +132,19 @@ public class Main {
     private static void addRecord(Record record) {
         record.askUserData();
         int id = record.getId();
-        recordsMap.put(id, record); // associacion what with what
+        treeMap.put(id, record); // associacion what with what
         System.out.println("Created!");
     }
 
 
     private static void showHelpCreate() {
         System.out.println("\tperson  creates a new phone book record");
+        System.out.println("\tpet  creates a new record about pet");
         System.out.println("\tnote    creates a new note record");
         System.out.println("\talarm   creates a new alarm");
         System.out.println("\treminder  creates a new reminder");
         System.out.println("\texit    returns to main menu");
+        System.out.println("\tshow    searches data using ID");
     }
 
     private static void showHelp() {

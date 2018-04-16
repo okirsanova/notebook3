@@ -4,10 +4,11 @@ import org.relaxng.datatype.DatatypeException;
 import sun.util.calendar.LocalGregorianCalendar;
 
 import java.time.LocalDate;
+//import java.util.Date;
 import java.time.format.DateTimeFormatter;
 
 
-public class Person extends Record implements WithBirthday {
+public class Person extends Record implements WithBirthday, ThisMonth {
     private String firstName;
     private String lastName;
     private String phone;
@@ -102,6 +103,18 @@ public class Person extends Record implements WithBirthday {
     public boolean withbirthday() {
         return false;
     }
+
+    @Override
+    public boolean thisMonth() {
+        return false;
+    }
+
+//    @Override
+//    public boolean thisMonth() {
+//        Date(date) = birthday;
+//        int compateTo(date, birthday)
+//        return dt.isAfter(date);
+//    }
 }
 
 
