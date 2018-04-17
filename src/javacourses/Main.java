@@ -49,14 +49,29 @@ public class Main {
                 case "expired":
                     findExpired();
                     break;
-//                case "month":
-//                    thisMonth();
-//                    break;
+                case "birthdays":
+                    thisMonth();
+                    break;
                 case "help":
                     showHelp();
                     break;
                 default:
                     System.out.println("Unknown command. Enter 'help' for all available options");
+            }
+        }
+    }
+
+    private static void thisMonth() {
+        LocalDate now = LocalDate.now();
+        Month nowMonth = now.getMonth();
+        for (Record r : treeMap.values()){
+            if (r instanceof Person) {
+                Person rwb = (Person) r;
+                LocalDate birthday = rwb.getBirthday();
+                Month birthdayMonth = birthday.getMonth();
+                if (nowMonth == birthdayMonth) {
+                    System.out.println(r);
+                }
             }
         }
     }
@@ -156,6 +171,7 @@ public class Main {
         System.out.println("\treminder  creates a new reminder");
         System.out.println("\texit    returns to main menu");
         System.out.println("\tshow    searches data using ID");
+        System.out.println("\tbirthday    searches for everyone with BD this month");
     }
 
     private static void showHelp() {
