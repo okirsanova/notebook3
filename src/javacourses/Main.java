@@ -1,11 +1,13 @@
 package javacourses;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Main {
     public static final String DATE_FORMAT = "dd/MM/yyyy";
@@ -47,6 +49,9 @@ public class Main {
                 case "expired":
                     findExpired();
                     break;
+//                case "month":
+//                    thisMonth();
+//                    break;
                 case "help":
                     showHelp();
                     break;
@@ -66,6 +71,12 @@ public class Main {
             }
         }
     }
+
+//    private boolean thisMonth() {
+//                    System.out.println("четататакое");
+//                    return askDate(Person.birthday)
+//                }
+
 
     private static void list() {
         for (Record r : treeMap.values()) {

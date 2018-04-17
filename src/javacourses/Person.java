@@ -1,11 +1,10 @@
 package javacourses;
 
-import org.relaxng.datatype.DatatypeException;
-import sun.util.calendar.LocalGregorianCalendar;
-
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-//import java.util.Date;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+
 
 
 public class Person extends Record implements WithBirthday, ThisMonth {
@@ -84,8 +83,7 @@ public class Person extends Record implements WithBirthday, ThisMonth {
     }
 
     @Override
-    public void askUserData ()
-    {
+    public void askUserData() {
         String firstName = Main.askString("First Name: ");
         String lastName = Main.askString("Last Name: ");
         String phone = Main.askString("Phone: ");
@@ -106,16 +104,17 @@ public class Person extends Record implements WithBirthday, ThisMonth {
 
     @Override
     public boolean thisMonth() {
-        return false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm:ss");
+//        Calendar calendar = new GregorianCalendar(2013, 0, 31);
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+//        month = sdf.parse(dateInString);
+//        thisMonth() = birthday.getMonth();
+        LocalDate dt = getBirthday();
+        return dt.isEqual(birthday);
     }
 
-//    @Override
-//    public boolean thisMonth() {
-//        Date(date) = birthday;
-//        int compateTo(date, birthday)
-//        return dt.isAfter(date);
-//    }
-}
+    }
 
 
 //    @Override
